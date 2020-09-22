@@ -7,7 +7,6 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Access(AccessType.PROPERTY)
     @Column(name = "user_id")
     private int userId;
     @Column(nullable = false, unique = true)
