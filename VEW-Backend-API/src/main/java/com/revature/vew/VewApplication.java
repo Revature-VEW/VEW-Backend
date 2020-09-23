@@ -1,20 +1,15 @@
 package com.revature.vew;
 
-import com.revature.vew.models.Question;
-import com.revature.vew.models.Role;
-import com.revature.vew.models.User;
-import com.revature.vew.repositories.QuestionRepository;
-import com.revature.vew.repositories.RoleRepository;
-import com.revature.vew.repositories.UserRepository;
+import com.revature.vew.models.*;
+import com.revature.vew.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.apache.log4j.Logger;
-
-import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 @SpringBootApplication
 public class VewApplication {
@@ -27,7 +22,8 @@ public class VewApplication {
 
     @Bean
     public CommandLineRunner demo(RoleRepository roleRepository, UserRepository userRepository,
-                                  QuestionRepository questionRepository) {
+                                  QuestionRepository questionRepository, QuestionRankingRepository questionRankingRepository,
+                                  TagRepository tagRepository) {
         return args -> {
             // save a few roles
             roleRepository.save(new Role(1,"Admin"));
@@ -74,6 +70,42 @@ public class VewApplication {
             questionRepository.save(new Question(userForQuestions, "What is Unix?"));
             questionRepository.save(new Question(userForQuestions, "What is Linux?"));
             questionRepository.save(new Question(userForQuestions, "What is Java?"));
+
+            // fetch question by question Id with only relevant information
+            Question relevantInfoQuestion = questionRepository.findRelevantInformationQuestionByQuestionId(1);
+            log.info("Question found with findRelevantInformationQuestionByQuestionId(1)");
+            log.info("-------------------------------");
+            log.info(relevantInfoQuestion.toString());
+            log.info("");
+
+            // save a few question rankings
+            questionRankingRepository.save(new QuestionRanking(userForQuestions, relevantInfoQuestion, true));
+
+            // fetch all question rankings
+            log.info("Question Rankings found with findAll():");
+            log.info("-------------------------------");
+            for (QuestionRanking tempQuestionRanking : questionRankingRepository.findAll()) {
+                log.info(tempQuestionRanking.toString());
+            }
+            log.info("");
+
+            // save a few tags
+            Tag tagJava = new Tag("Java");
+            Tag tagCapco = new Tag("Capco");
+            Tag tagSpring = new Tag("Spring");
+            tagRepository.saveAll(Arrays.asList(tagJava, tagCapco, tagSpring));
+
+            // fetch all tags
+            log.info("Tags found with findAll():");
+            log.info("-------------------------------");
+            for (Tag tempTag : tagRepository.findAll()) {
+                log.info(tempTag.toString());
+            }
+            log.info("");
+
+            // add tags to Question
+            relevantInfoQuestion.getTags().addAll(Arrays.asList(tagJava, tagCapco, tagSpring));
+            questionRepository.save(relevantInfoQuestion);
 
             // fetch all questions
             log.info("Questions found with findAll():");

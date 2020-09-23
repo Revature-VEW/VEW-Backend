@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private int userId;
     @Column(nullable = false, unique = true)
@@ -22,6 +22,12 @@ public class User {
     private Role role;
 
     public User() {
+    }
+
+    public User(int userId, String firstName, String lastName) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public User(String email, String password, String firstName, String lastName, Role role) {
