@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "answer_ranking")
-public class Answer_Ranking extends Auditable<String>{
+public class AnswerRanking extends Auditable<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "answer_ranking_id")
@@ -17,11 +17,9 @@ public class Answer_Ranking extends Auditable<String>{
     private Answer answer;
     private boolean upvote;
 
-    public Answer_Ranking(){
+    public AnswerRanking() { }
 
-    }
-
-    public Answer_Ranking(User user, Answer answer,boolean upvote){
+    public AnswerRanking(User user, Answer answer,boolean upvote) {
         this.user = user;
         this.answer = answer;
         this.upvote = upvote;
@@ -61,7 +59,7 @@ public class Answer_Ranking extends Auditable<String>{
 
     @Override
     public String toString() {
-        return "Answer_Ranking{" +
+        return "AnswerRanking{" +
                 "answerRankingId=" + answerRankingId +
                 ", user=" + user +
                 ", answer=" + answer +
