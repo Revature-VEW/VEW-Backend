@@ -23,7 +23,8 @@ public class VewApplication {
     @Bean
     public CommandLineRunner demo(RoleRepository roleRepository, UserRepository userRepository,
                                   QuestionRepository questionRepository, QuestionRankingRepository questionRankingRepository,
-                                  TagRepository tagRepository, AnswerRepository answerRepository, AnswerCommentRepository answerCommentRepository) {
+                                  TagRepository tagRepository, AnswerRepository answerRepository,
+                                  AnswerCommentRepository answerCommentRepository) {
         return args -> {
             // save a few roles
             roleRepository.save(new Role(1,"Admin"));
@@ -117,25 +118,34 @@ public class VewApplication {
             }
             log.info("");
 
-            //Save a couple Answers
-            answerRepository.save(new Answer(userForQuestions,relevantInfoQuestion,"Test Unix"));
-            answerRepository.save(new Answer(userForQuestions,relevantInfoQuestion,"Test Linux"));
-            answerRepository.save(new Answer(userForQuestions,relevantInfoQuestion,"Test Java"));
+            // Save a couple Answers
+            answerRepository.save(new Answer(userForQuestions, relevantInfoQuestion,"Test Unix"));
+            answerRepository.save(new Answer(userForQuestions, relevantInfoQuestion,"Test Linux"));
+            answerRepository.save(new Answer(userForQuestions, relevantInfoQuestion,"Test Java"));
 
-            //fetch all answers to Question
+            // fetch all answers to Question
             Answer relevantInfoAnswer = answerRepository.findRelevantInformationAnswerByAnswerId(1);
             log.info("Answer found with findRelevantAnswerByAnswerId(1)");
             log.info("-------------------------------");
             log.info(relevantInfoAnswer.toString());
             log.info("");
 
-            //Save a couple Comments
-            answerCommentRepository.save(new Answer_Comment(userForQuestions,relevantInfoAnswer,"This is checking for test Unix"));
-            answerCommentRepository.save(new Answer_Comment(userForQuestions,relevantInfoAnswer,"This is checking for test Linux"));
-            answerCommentRepository.save(new Answer_Comment(userForQuestions,relevantInfoAnswer,"This is checking for test Java"));
+            // Save a couple answer Comments
+            answerCommentRepository.save(new AnswerComment(userForQuestions, relevantInfoAnswer,"This is checking for test Unix"));
+            answerCommentRepository.save(new AnswerComment(userForQuestions, relevantInfoAnswer,"This is checking for test Linux"));
+            answerCommentRepository.save(new AnswerComment(userForQuestions, relevantInfoAnswer,"This is checking for test Java"));
 
-            Answer_Comment relevantInfoComment = answerCommentRepository.findRelevantInformationCommentByCommentId(1);
-            log.info("Answer found with findRelevantInformationCommentByCommentId(1)");
+            // find all answer comments
+            log.info("Answer comments found with findAll():");
+            log.info("-------------------------------");
+            for (AnswerComment tempAnswerComment : answerCommentRepository.findAll()) {
+                log.info(tempAnswerComment.toString());
+            }
+            log.info("");
+
+            // find an answer comment with just relevant information
+            AnswerComment relevantInfoComment = answerCommentRepository.findRelevantInformationAnswerCommentByAnswerCommentId(1);
+            log.info("Answer found with findRelevantInformationAnswerCommentByAnswerCommentId(1)");
             log.info("-------------------------------");
             log.info(relevantInfoComment.toString());
             log.info("");

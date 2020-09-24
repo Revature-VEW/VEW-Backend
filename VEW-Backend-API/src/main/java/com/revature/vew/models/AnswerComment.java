@@ -8,36 +8,31 @@ import java.util.Date;
 
 @Entity
 @Table(name = "answer_comment")
-public class Answer_Comment extends Auditable<String>{
+public class AnswerComment extends Auditable<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "answer_comment_id")
     private int answerCommentId;
-
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
-
     @ManyToOne
     @JoinColumn(name="answer_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Answer answer;
     private String comment;
 
-    public Answer_Comment(){
+    public AnswerComment() { }
 
-    }
-
-    public Answer_Comment(User user, Answer answer, String comment){
+    public AnswerComment(User user, Answer answer, String comment) {
         this.user = user;
         this.answer = answer;
         this.comment = comment;
     }
 
-    public Answer_Comment(int answerCommentId, String comment, Date creationDate,
-                          Date lastModifiedDate, int answerId, int userId, String firstName, String lastName){
-
+    public AnswerComment(int answerCommentId, String comment, Date creationDate,
+                          Date lastModifiedDate, int answerId, int userId, String firstName, String lastName) {
         Answer answer = new Answer(answerId);
         User user = new User(userId, firstName, lastName);
         this.answerCommentId=answerCommentId;
@@ -82,7 +77,7 @@ public class Answer_Comment extends Auditable<String>{
 
     @Override
     public String toString() {
-        return "Answer_Comment{" +
+        return "AnswerComment{" +
                 "answerCommentId=" + answerCommentId +
                 ", user=" + user +
                 ", answer=" + answer +
