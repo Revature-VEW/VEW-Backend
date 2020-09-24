@@ -39,6 +39,9 @@ public class Question extends Auditable<String> {
         this.question = question;
     }
 
+    public Question(int questionId){
+        this.questionId = questionId;
+    }
     public Question(int questionId, String question, int totalUpvotes, int totalDownvotes, Date creationDate,
                     Date lastModifiedDate, int userId, String firstName, String lastName) {
         User user = new User(userId, firstName, lastName);

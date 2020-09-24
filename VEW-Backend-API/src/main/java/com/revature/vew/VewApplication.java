@@ -23,7 +23,7 @@ public class VewApplication {
     @Bean
     public CommandLineRunner demo(RoleRepository roleRepository, UserRepository userRepository,
                                   QuestionRepository questionRepository, QuestionRankingRepository questionRankingRepository,
-                                  TagRepository tagRepository) {
+                                  TagRepository tagRepository, AnswerRepository answerRepository, AnswerCommentRepository answerCommentRepository) {
         return args -> {
             // save a few roles
             roleRepository.save(new Role(1,"Admin"));
@@ -45,6 +45,7 @@ public class VewApplication {
             log.info("Role found with findByRoleId(1):");
             log.info("--------------------------------");
             log.info(admin.toString());
+
 
             // save a few users
             userRepository.save(new User("testone@host.com", "password", "test", "one", admin));
@@ -77,6 +78,7 @@ public class VewApplication {
             log.info("-------------------------------");
             log.info(relevantInfoQuestion.toString());
             log.info("");
+
 
             // save a few question rankings
             questionRankingRepository.save(new QuestionRanking(userForQuestions, relevantInfoQuestion, true));
@@ -114,6 +116,30 @@ public class VewApplication {
                 log.info(tempQuestion.toString());
             }
             log.info("");
+
+            //Save a couple Answers
+            answerRepository.save(new Answer(userForQuestions,relevantInfoQuestion,"Test Unix"));
+            answerRepository.save(new Answer(userForQuestions,relevantInfoQuestion,"Test Linux"));
+            answerRepository.save(new Answer(userForQuestions,relevantInfoQuestion,"Test Java"));
+
+            //fetch all answers to Question
+            Answer relevantInfoAnswer = answerRepository.findRelevantInformationAnswerByAnswerId(1);
+            log.info("Answer found with findRelevantAnswerByAnswerId(1)");
+            log.info("-------------------------------");
+            log.info(relevantInfoAnswer.toString());
+            log.info("");
+
+            //Save a couple Comments
+            answerCommentRepository.save(new Answer_Comment(userForQuestions,relevantInfoAnswer,"This is checking for test Unix"));
+            answerCommentRepository.save(new Answer_Comment(userForQuestions,relevantInfoAnswer,"This is checking for test Linux"));
+            answerCommentRepository.save(new Answer_Comment(userForQuestions,relevantInfoAnswer,"This is checking for test Java"));
+
+            Answer_Comment relevantInfoComment = answerCommentRepository.findRelevantInformationCommentByCommentId(1);
+            log.info("Answer found with findRelevantInformationCommentByCommentId(1)");
+            log.info("-------------------------------");
+            log.info(relevantInfoComment.toString());
+            log.info("");
+
 
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
             LocalDateTime now = LocalDateTime.now();
