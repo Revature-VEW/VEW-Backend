@@ -20,6 +20,8 @@ public class Question extends Auditable<String> {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
     private String question;
+    @Column(columnDefinition = "boolean default false")
+    private boolean approved;
     @Column(name = "total_upvotes", columnDefinition = "int default 0")
     private int totalUpvotes;
     @Column(name = "total_downvotes", columnDefinition = "int default 0")
@@ -78,6 +80,14 @@ public class Question extends Auditable<String> {
         this.question = question;
     }
 
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
     public int getTotalUpvotes() {
         return totalUpvotes;
     }
@@ -108,6 +118,7 @@ public class Question extends Auditable<String> {
                 "questionId=" + questionId +
                 ", user=" + user +
                 ", question='" + question + '\'' +
+                ", approved=" + approved +
                 ", totalUpvotes=" + totalUpvotes +
                 ", totalDownvotes=" + totalDownvotes +
                 ", tags=" + tags +

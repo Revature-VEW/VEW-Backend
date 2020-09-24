@@ -3,7 +3,7 @@ package com.revature.vew.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "answer_ranking")
+@Table(name = "answer_rankings")
 public class AnswerRanking extends Auditable<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,9 +64,7 @@ public class AnswerRanking extends Auditable<String> {
                 ", user=" + user +
                 ", answer=" + answer +
                 ", upvote=" + upvote +
-                ", createdBy=" + createdBy +
                 ", creationDate=" + creationDate +
-                ", lastModifiedBy=" + lastModifiedBy +
                 ", lastModifiedDate=" + lastModifiedDate +
                 '}';
     }

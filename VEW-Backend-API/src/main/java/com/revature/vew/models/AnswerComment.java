@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "answer_comment")
+@Table(name = "answer_comments")
 public class AnswerComment extends Auditable<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

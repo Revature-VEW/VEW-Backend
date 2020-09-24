@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "roles")
-public class Role {
+public class Role extends Auditable<String> {
     @Id
     @Column(name = "role_id", nullable = false, unique = true)
     private  int roleId;
@@ -40,6 +40,8 @@ public class Role {
         return "Role{" +
                 "roleId=" + roleId +
                 ", role='" + role + '\'' +
+                ", creationDate=" + creationDate +
+                ", lastModifiedDate=" + lastModifiedDate +
                 '}';
     }
 }

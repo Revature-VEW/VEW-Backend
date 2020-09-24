@@ -9,24 +9,32 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.TestPropertySource;
 
 @DataJpaTest
+@TestPropertySource(properties = {
+        "spring.datasource.platform=h2",
+        "spring.jpa.database-platform=org.hibernate.dialect.PostgreSQL95Dialect",
+        "spring.jpa.hibernate.ddl-auto=create-drop"
+})
 public class QuestionRepositoryTests {
     @Autowired
     private TestEntityManager entityManager;
+
+    @Autowired
+    private UserRepository users;
 
     @Autowired
     private QuestionRepository  questions;
 
     @Test
     public void testFindRelevantInformationQuestionByQuestionId() {
-        Role role = new Role(1, "Admin");
-        User user = new User("testfortest@host.com", "password", "Test", "Fortest", role);
-        Question question = new Question(user, "How do you write a test?");
+        User adminUser = users.findUserByEmail("admin@host.com");
+        Question question = new Question(adminUser, "How do you write a test?");
         entityManager.persist(question);
 
         Question findRelevantInformationQuestionByQuestionId = questions.findRelevantInformationQuestionByQuestionId(1);
 
-        assertThat(findRelevantInformationQuestionByQuestionId).extracting("password").isEqualTo(null);
+        assertThat(findRelevantInformationQuestionByQuestionId.getUser().getPassword()).isEqualTo(null);
     }
 }
