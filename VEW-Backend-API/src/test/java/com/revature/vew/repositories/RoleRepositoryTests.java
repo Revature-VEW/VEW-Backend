@@ -16,25 +16,25 @@ public class RoleRepositoryTests {
     private TestEntityManager entityManager;
 
     @Autowired
-    private RoleRepository  roles;
+    private RoleRepository  roleRepository;
 
     @Test
     public void testFindAll() {
-        List<Role> allRoles = roles.findAll();
+        List<Role> allRoles = roleRepository.findAll();
 
         assertThat(allRoles.size()).isEqualTo(3);
     }
 
     @Test
     public  void testFindByRoleId() {
-     Role roleOne = roles.findByRoleId(1);
+     Role roleOne = roleRepository.findByRoleId(1);
 
      assertThat(roleOne.getRoleId()).isEqualTo(1);
     }
 
     @Test
     public void testExistsByRole() {
-        boolean doesExist = roles.existsByRole("Admin");
+        boolean doesExist = roleRepository.existsByRole("Admin");
 
         assertThat(doesExist).isEqualTo(true);
     }

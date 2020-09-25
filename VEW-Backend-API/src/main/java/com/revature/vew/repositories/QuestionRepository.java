@@ -8,5 +8,5 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
     // This method returns a question with ONLY the relevant information needed to display it on the front end
     @Query("SELECT new Question(questionId, question, totalUpvotes, totalDownvotes, creationDate, lastModifiedDate, user.userId, " +
             "user.firstName, user.lastName) from Question where questionId = ?1")
-    Question findRelevantInformationQuestionByQuestionId(int id);
+    Question findRelevantInfoQuestionByQuestionId(int id);
 }

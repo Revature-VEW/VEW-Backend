@@ -3,6 +3,7 @@ package com.revature.vew.repositories;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.revature.vew.models.Question;
+import com.revature.vew.models.QuestionRanking;
 import com.revature.vew.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import java.util.List;
 
 @DataJpaTest
-public class QuestionRepositoryTests {
+public class QuestionRankingRepositoryTests {
     @Autowired
     private TestEntityManager entityManager;
 
@@ -21,31 +22,21 @@ public class QuestionRepositoryTests {
     private UserRepository userRepository;
 
     @Autowired
-    private QuestionRepository questionRepository;
+    private QuestionRankingRepository questionRankingRepository;
 
     @BeforeEach
-    public void setup() {
+    private void setup() {
         User adminUser = userRepository.findUserByEmail("admin@host.com");
         Question question = new Question(adminUser, "How do you write a test?");
         entityManager.persist(question);
+        QuestionRanking questionRanking = new QuestionRanking(adminUser, question, true);
+        entityManager.persist(questionRanking);
     }
 
     @Test
     public void testFindAll() {
-        List<Question> allQuestions = questionRepository.findAll();
+        List<QuestionRanking> questionRankings = questionRankingRepository.findAll();
 
-        assertThat(allQuestions.size()).isEqualTo(1);
-    }
-
-    @Test
-    public void testFindRelevantInformationQuestionByQuestionId() {
-        // Not happy having to add this in but the question Id seems to change based on the number of methods in this class
-        // this ensures that the test does not break due to the ID changing
-        List<Question> allQuestions = questionRepository.findAll();
-        int idOfFirstQuestion = allQuestions.get(0).getQuestionId();
-
-        Question findRelevantInfoQuestionByQuestionId = questionRepository.findRelevantInfoQuestionByQuestionId(idOfFirstQuestion);
-
-        assertThat(findRelevantInfoQuestionByQuestionId.getUser().getPassword()).isEqualTo(null);
+        assertThat(questionRankings.size()).isEqualTo(1);
     }
 }
