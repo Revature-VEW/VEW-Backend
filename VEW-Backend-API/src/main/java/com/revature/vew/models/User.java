@@ -18,10 +18,14 @@ public class User {
     @Column(name = "last_name", nullable = false)
     private String lastName;
     @OneToOne
-    @JoinColumn(name = "role", referencedColumnName = "role_id", nullable = false)
+    @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false)
     private Role role;
 
     public User() {
+    }
+
+    public User(int userId) {
+        this.userId = userId;
     }
 
     public User(int userId, String firstName, String lastName) {
