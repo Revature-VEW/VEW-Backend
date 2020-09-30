@@ -13,6 +13,7 @@ public class UserService {
     public UserService(UserRepository userRepository){
         this.userRepository = userRepository;
     }
+
     public User registerUser(User newUser){
         return this.userRepository.save(newUser);
     }
