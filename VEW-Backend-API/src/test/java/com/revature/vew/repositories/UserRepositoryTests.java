@@ -25,8 +25,8 @@ public class UserRepositoryTests {
 
     @BeforeEach
     public void setup() {
-        Role trainerRole = roleRepository.findByRoleId(2);
-        Role userRole = roleRepository.findByRoleId(3);
+        Role trainerRole = roleRepository.findRoleByRoleId(2);
+        Role userRole = roleRepository.findRoleByRoleId(3);
         User trainerUser = new User("testtrainer@host.com", "test", "test", "trainer", trainerRole);
         entityManager.persist(trainerUser);
         User userUser = new User("testuser@host.com", "test", "test", "user", userRole);

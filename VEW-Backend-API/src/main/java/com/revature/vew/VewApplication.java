@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.apache.log4j.Logger;
+import org.springframework.context.annotation.Profile;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -22,6 +24,7 @@ public class VewApplication {
     // Spring boot’s CommandLineRunner interface is used to run a code block only once in application’s lifetime
     //                  – after application is initialized.
     // We use it to set up some predetermined roles and one master user.
+    @Profile("!test") // Runs this bean whenever the Profile is not test
     @Bean
     public CommandLineRunner dbSetup(RoleRepository roleRepository, UserRepository userRepository) {
         return args -> {

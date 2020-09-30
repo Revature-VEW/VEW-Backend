@@ -18,14 +18,24 @@ public class User {
     @Column(name = "last_name", nullable = false)
     private String lastName;
     @OneToOne
-    @JoinColumn(name = "role", referencedColumnName = "role_id", nullable = false)
+    @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false)
     private Role role;
 
-    public User() {
+    public User() { }
+
+    public User(int userId) {
+        this.userId = userId;
     }
 
     public User(int userId, String firstName, String lastName) {
         this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public User(String email, String password, String firstName, String lastName) {
+        this.email = email;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -36,6 +46,15 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
+    }
+
+    public User(int userId, String email, String password, String firstName, String lastName, Role role) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+        this.userId = userId;
     }
 
     public int getUserId() {
