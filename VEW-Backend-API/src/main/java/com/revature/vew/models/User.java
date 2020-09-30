@@ -21,8 +21,7 @@ public class User {
     @JoinColumn(name = "role_id", referencedColumnName = "role_id", nullable = false)
     private Role role;
 
-    public User() {
-    }
+    public User() { }
 
     public User(int userId) {
         this.userId = userId;
@@ -30,6 +29,13 @@ public class User {
 
     public User(int userId, String firstName, String lastName) {
         this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public User(String email, String password, String firstName, String lastName) {
+        this.email = email;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
     }

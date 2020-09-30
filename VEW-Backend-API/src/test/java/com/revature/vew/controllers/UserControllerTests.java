@@ -1,13 +1,13 @@
 package com.revature.vew.controllers;
 
 import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.vew.models.Role;
 import com.revature.vew.models.User;
 import com.revature.vew.services.UserService;
 import org.junit.jupiter.api.Test;
@@ -38,10 +38,9 @@ public class UserControllerTests {
 
     @Test
     public void registerUserShouldReturnUser() throws Exception {
-        Role userRole = new Role(3, "User");
-        User newUser = new User("testone@host.com", "test", "Test", "One", userRole);
+        User newUser = new User("testone@host.com", "test", "Test", "One");
         User userWithJustId = new User(2);
-        when(userServiceMock.registerUser(org.mockito.ArgumentMatchers.any())).thenReturn(userWithJustId);
+        when(userServiceMock.registerUser(any(User.class))).thenReturn(userWithJustId);
 
         this.mockMvc.perform(post("/user")
                 .content(objectMapper.writeValueAsString(newUser))
@@ -55,10 +54,9 @@ public class UserControllerTests {
 
     @Test
     public void registerUserShouldReturnUserWithIdZero() throws Exception {
-        Role userRole = new Role(3, "User");
-        User newUser = new User("testone@host.com", "test", "Test", "One", userRole);
+        User newUser = new User("testone@host.com", "test", "Test", "One");
         User userWithJustId = new User(0);
-        when(userServiceMock.registerUser(org.mockito.ArgumentMatchers.any())).thenReturn(userWithJustId);
+        when(userServiceMock.registerUser(any(User.class))).thenReturn(userWithJustId);
 
         this.mockMvc.perform(post("/user")
                 .content(objectMapper.writeValueAsString(newUser))
@@ -72,23 +70,19 @@ public class UserControllerTests {
 
     @Test
     public void testRegisterUserSendsCorrectUserToUserService() throws Exception {
-        Role userRole = new Role(3, "User");
-        User newUser = new User("testOne@host.com", "test", "Test", "One", userRole);
-        User userWithJustId = new User(0);
-        when(userServiceMock.registerUser(org.mockito.ArgumentMatchers.any())).thenReturn(userWithJustId);
+        User newUser = new User("testOne@host.com", "test", "Test", "One");
+        User userWithJustId = new User(2);
+        when(userServiceMock.registerUser(any(User.class))).thenReturn(userWithJustId);
 
         this.mockMvc.perform(post("/user")
                 .content(objectMapper.writeValueAsString(newUser))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isNotAcceptable())
-                .andExpect(content().json("{\"userId\":0,\"email\":null,\"password\":null,\"firstName\":null,\"lastName\":null,\"role\":null}"))
                 .andReturn();
 
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
-        verify(userServiceMock, times(1)).registerUser(userCaptor.capture(), eq(true));
-        assertThat(userCaptor.getValue().getFirstName()).isEqualTo("Zaphod");
-        assertThat(userCaptor.getValue().getEmail()).isEqualTo("zaphod@galaxy.net");
+        verify(userServiceMock, times(1)).registerUser(userCaptor.capture());
+        assertThat(userCaptor.getValue().getPassword()).isNotEqualTo("test");
+        assertThat(userCaptor.getValue().getEmail()).isEqualTo("testone@host.com");
     }
 }

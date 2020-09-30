@@ -11,5 +11,5 @@ public interface AnswerCommentRepository extends JpaRepository<AnswerComment, In
     // This method returns an answer comment with ONLY the relevant information needed to display it on the front end
     @Query("SELECT new AnswerComment (answerCommentId, comment, creationDate, lastModifiedDate, answer.answer_id,user.userId, " +
             "user.firstName, user.lastName) from AnswerComment where answer = ?1")
-    List<AnswerComment> findRelevantInfoAnswerCommentByAnswer(Answer answer);
+    List<AnswerComment> findRelevantInfoAnswerCommentsByAnswer(Answer answer);
 }
