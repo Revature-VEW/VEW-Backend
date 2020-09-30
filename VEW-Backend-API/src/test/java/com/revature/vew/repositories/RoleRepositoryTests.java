@@ -4,7 +4,6 @@ import com.revature.vew.models.Role;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.util.List;
 
@@ -12,11 +11,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 public class RoleRepositoryTests {
-    @Autowired
-    private TestEntityManager entityManager;
+    private RoleRepository  roleRepository;
 
     @Autowired
-    private RoleRepository  roleRepository;
+    public RoleRepositoryTests(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
+
 
     @Test
     public void testFindAll() {
@@ -26,10 +27,17 @@ public class RoleRepositoryTests {
     }
 
     @Test
-    public  void testFindByRoleId() {
-     Role roleOne = roleRepository.findByRoleId(1);
+    public void testFindRoleByRoleId() {
+     Role roleOne = roleRepository.findRoleByRoleId(1);
 
      assertThat(roleOne.getRoleId()).isEqualTo(1);
+    }
+
+    @Test
+    public void testFindRoleByRole() {
+        Role userRole = roleRepository.findRoleByRole("User");
+
+        assertThat(userRole.getRole()).isEqualTo("User");
     }
 
     @Test
