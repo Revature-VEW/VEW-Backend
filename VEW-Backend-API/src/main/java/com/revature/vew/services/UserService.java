@@ -22,13 +22,22 @@ public class UserService {
     public User registerUser(User newUser) {
         Role defaultUserRole = this.roleRepository.findRoleByRole("User");
         newUser.setRole(defaultUserRole);
-        User filteredUser;
+        User filteredUser = new User();
+        /* We catch exceptions from the repository methods here
+        We than supply a specific userId to let the controller know if a specific exception was thrown
+        userId > 0 means a user was created
+        userId == -1 means there was a DataIntegrityViolationException
+                    ie user(email) already exists
+        userId will equal 0 for other exceptions since that is the defatul value of an int
+        */
         try {
             User unfilteredUser = this.userRepository.save(newUser);
-            filteredUser = new User(unfilteredUser.getUserId());
+            filteredUser.setUserId(unfilteredUser.getUserId());
         } catch (DataIntegrityViolationException ex) {
             System.out.println(ex);
-            filteredUser = new User(0);
+            filteredUser.setUserId(-1);
+        } catch (Exception ex) {
+            System.out.println(ex);
         }
 
         return filteredUser;

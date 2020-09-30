@@ -51,6 +51,22 @@ public class UserControllerTests {
     }
 
     @Test
+    public void testRegisterUserWhenServiceReturnsUserWithIdNegativeOne() throws Exception {
+        User newUser = new User("testone@host.com", "test", "Test", "One");
+        User userWithJustId = new User(-1);
+        when(userServiceMock.registerUser(any(User.class))).thenReturn(userWithJustId);
+
+        this.mockMvc.perform(post("/user")
+                .content(objectMapper.writeValueAsString(newUser))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotAcceptable())
+                .andExpect(content().string("User Already Exists"))
+                .andReturn();
+    }
+
+    @Test
     public void testRegisterUserWhenServiceReturnsUserWithIdZero() throws Exception {
         User newUser = new User("testone@host.com", "test", "Test", "One");
         User userWithJustId = new User(0);
@@ -61,8 +77,8 @@ public class UserControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isNotAcceptable())
-                .andExpect(content().json("{\"userId\":0,\"email\":null,\"password\":null,\"firstName\":null,\"lastName\":null,\"role\":null}"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().string("Server Exception"))
                 .andReturn();
     }
 

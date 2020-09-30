@@ -28,7 +28,7 @@ public class UserController {
     // This method takes in a new user and registers it
     // Uses the UserService's registerUser method to achieve this
     @PostMapping
-    public ResponseEntity<User> registerUser(@RequestBody User newUser) throws URISyntaxException {
+    public ResponseEntity<?> registerUser(@RequestBody User newUser) throws URISyntaxException {
         // Will encrypt user password for database security
         newUser.setPassword(encrypt.encode(newUser.getPassword()));
 
@@ -36,10 +36,17 @@ public class UserController {
         newUser.setEmail(newUser.getEmail().toLowerCase());
 
         User addedUser = this.userService.registerUser(newUser);
+        /* If statements to check what userId was returned by the Service
+        userId > 0 means a user was created
+        userId == -1 means there was a DataIntegrityViolationException
+                    ie user(email) already exists
+        */
         if (addedUser.getUserId() > 0) {
             return new ResponseEntity<>(addedUser, HttpStatus.CREATED);
+        } else if (addedUser.getUserId() == -1) {
+            return new ResponseEntity<>("User Already Exists", HttpStatus.NOT_ACCEPTABLE);
         } else {
-            return new ResponseEntity<>(addedUser, HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>("Server Exception", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

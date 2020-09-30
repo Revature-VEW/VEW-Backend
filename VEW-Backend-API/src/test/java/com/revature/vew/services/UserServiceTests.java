@@ -15,6 +15,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -58,4 +59,21 @@ public class UserServiceTests {
         assertThat(userCaptor.getValue().getRole().getRole()).isEqualTo("User");
     }
 
+    @Test
+    public void testRegisterUserReturnsUserWithIdNegativeOne() {
+        User inputtedUser = new User("testemail@host.com", "password", "FirstName", "LastName");
+        when(userRepositoryMock.save(any(User.class))).thenThrow(DataIntegrityViolationException.class);
+        User userCreated = userServiceMock.registerUser(inputtedUser);
+        assertThat(userCreated.getUserId()).isEqualTo(-1);
+        assertThat(userCreated.getPassword()).isEqualTo(null);
+    }
+
+    @Test
+    public void testRegisterUserReturnsUserWithIdZero() {
+        User inputtedUser = new User("testemail@host.com", "password", "FirstName", "LastName");
+        when(userRepositoryMock.save(any(User.class))).thenThrow(NullPointerException.class);
+        User userCreated = userServiceMock.registerUser(inputtedUser);
+        assertThat(userCreated.getUserId()).isEqualTo(0);
+        assertThat(userCreated.getPassword()).isEqualTo(null);
+    }
 }
