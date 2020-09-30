@@ -18,8 +18,9 @@ public class UserService {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
     }
+
     public User registerUser(User newUser) {
-        Role defaultUserRole = this.roleRepository.findByRole("User");
+        Role defaultUserRole = this.roleRepository.findRoleByRole("User");
         newUser.setRole(defaultUserRole);
         User filteredUser;
         try {
