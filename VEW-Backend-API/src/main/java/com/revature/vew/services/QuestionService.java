@@ -18,4 +18,8 @@ public class QuestionService {
 
         return questionRepository.save(newQuestion);
     }
+
+    public Question getQuestionbyQuestionId(int id) {
+        return questionRepository.findRelevantInfoQuestionByQuestionId(id);
+    }
 }
