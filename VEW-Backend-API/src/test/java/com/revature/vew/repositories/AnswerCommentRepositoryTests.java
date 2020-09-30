@@ -16,18 +16,19 @@ import java.util.List;
 
 @DataJpaTest
 public class AnswerCommentRepositoryTests {
-    @Autowired
     private TestEntityManager entityManager;
-
-    @Autowired
     private UserRepository userRepository;
-
-    @Autowired
     private AnswerRepository answerRepository;
-
-    @Autowired
     private  AnswerCommentRepository answerCommentRepository;
 
+    @Autowired
+    public AnswerCommentRepositoryTests(TestEntityManager entityManager, UserRepository userRepository,
+                                        AnswerRepository answerRepository, AnswerCommentRepository answerCommentRepository) {
+        this.entityManager = entityManager;
+        this.userRepository = userRepository;
+        this.answerRepository = answerRepository;
+        this.answerCommentRepository = answerCommentRepository;
+    }
     @BeforeEach
     public void setup() {
         User adminUser = userRepository.findUserByEmail("admin@host.com");
@@ -54,9 +55,9 @@ public class AnswerCommentRepositoryTests {
 
     @Test
     public void testFindRelevantInfoAnswerCommentByAnswer() {
-        Answer answer = answerRepository.getOne(1);
+        Answer answer = answerRepository.findAll().get(0);
         List<AnswerComment> onlyAnswerCommentsForOneAnswer =
-                answerCommentRepository.findRelevantInfoAnswerCommentByAnswer(answer);
+                answerCommentRepository.findRelevantInfoAnswerCommentsByAnswer(answer);
 
         assertThat(onlyAnswerCommentsForOneAnswer.size()).isEqualTo(2);
         assertThat(onlyAnswerCommentsForOneAnswer.get(0).getAnswer().getQuestion()).isEqualTo(null);
