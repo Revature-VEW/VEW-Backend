@@ -34,8 +34,6 @@ public class UserControllerTests {
         this.objectMapper = objectMapper;
     }
 
-
-
     @Test
     public void testRegisterUserWhenServiceReturnsUserWithIdTwo() throws Exception {
         User newUser = new User("testone@host.com", "test", "Test", "One");
