@@ -37,7 +37,7 @@ public class UserControllerTests {
 
 
     @Test
-    public void registerUserShouldReturnUser() throws Exception {
+    public void testRegisterUserWhenServiceReturnsUserWithIdTwo() throws Exception {
         User newUser = new User("testone@host.com", "test", "Test", "One");
         User userWithJustId = new User(2);
         when(userServiceMock.registerUser(any(User.class))).thenReturn(userWithJustId);
@@ -53,7 +53,7 @@ public class UserControllerTests {
     }
 
     @Test
-    public void registerUserShouldReturnUserWithIdZero() throws Exception {
+    public void testRegisterUserWhenServiceReturnsUserWithIdZero() throws Exception {
         User newUser = new User("testone@host.com", "test", "Test", "One");
         User userWithJustId = new User(0);
         when(userServiceMock.registerUser(any(User.class))).thenReturn(userWithJustId);
