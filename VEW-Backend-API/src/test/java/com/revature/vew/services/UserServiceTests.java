@@ -1,5 +1,9 @@
 package com.revature.vew.services;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
+
 import com.revature.vew.models.Role;
 import com.revature.vew.models.User;
 import com.revature.vew.repositories.RoleRepository;
@@ -10,22 +14,13 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Optional;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
-
-@ActiveProfiles("test")
+@ActiveProfiles("test") // This sets profile to test which means the Command Line Runner Bean will not be run.
+@RunWith(SpringRunner.class)
 @SpringBootTest
-@RunWith(MockitoJUnitRunner.class)
 public class UserServiceTests {
 
     @Mock
@@ -38,7 +33,7 @@ public class UserServiceTests {
     private UserService userServiceMock;
 
     @Before
-    public void init(){
+    public void init() {
         Role userRole = new Role(3, "User");
         when(roleRepositoryMock.findRoleByRole(userRole.getRole())).thenReturn(userRole);
 
@@ -47,7 +42,7 @@ public class UserServiceTests {
     }
 
     @Test
-    public void registerUserShouldReturnUser(){
+    public void registerUserShouldReturnJustUserWithId() {
         User inputtedUser = new User("testemail@host.com", "password", "FirstName", "LastName");
         User userCreated = userServiceMock.registerUser(inputtedUser);
         assertThat(userCreated.getUserId()).isEqualTo(2);
@@ -55,7 +50,7 @@ public class UserServiceTests {
     }
 
     @Test
-    public void testRegisterUserAddsRole(){
+    public void testRegisterUserAddsRole() {
         User inputtedUser = new User("testemail@host.com", "password", "FirstName", "LastName");
         userServiceMock.registerUser(inputtedUser);
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
