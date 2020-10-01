@@ -1,0 +1,36 @@
+language: java
+jdk: oraclejdk8
+dist: trusty
+
+# script: mvn test
+
+# whitelist
+branches:
+only: master
+
+services:
+ - docker
+script:
+ - cd VEW-Backend-API
+ - export db_url=$db_url
+ - export db_username=$db_username
+ - export db_password=$db_password
+ - export admin_password=$admin_password
+ - docker build -t vew --build-arg db_url --build-arg db_username --build-arg db_password --build-arg admin_password .
+ - cd ..
+after_success:
+ - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+ - docker images
+ - docker tag vew $DOCKER_USER/vew:latest
+ - docker push $DOCKER_USER/vew:latest
+
+deploy:
+ provider: elasticbeanstalk
+ access_key_id: $AWS_ACCESS_KEY
+ secret_access_key: $AWS_SECRET_ACCESS_KEY
+ region: "us-east-1"
+ app: "VEW"
+ env: "VEW-env"
+ bucket_name: "elasticbeanstalk-us-east-1-883500907501"
+ on:
+  branch: master
