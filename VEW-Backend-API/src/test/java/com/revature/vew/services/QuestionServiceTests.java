@@ -38,5 +38,4 @@ public class QuestionServiceTests {
         Question questionCreated = questionRepositoryMock.save(inputQuestion);
         assertThat(questionCreated).isEqualTo(outputQuestion);
     }
-
 }
