@@ -47,14 +47,7 @@ public class VewApplication {
             }
 
             // Add admin master user
-            String password;
-            // The following if block is because I did not want to set up Env Variables for each test and
-            // could not figure out how to do it for all of them.
-            if (System.getenv("admin_password") == null) {
-                password = "test";
-            } else {
-                password = System.getenv("admin_password");
-            }
+            String password = System.getenv("admin_password");
             User adminUser = new User("admin@host.com", password, "Admin", "Power", adminRole);
             if (!userRepository.existsByEmail(adminUser.getEmail())) {
                 userRepository.save(adminUser);
