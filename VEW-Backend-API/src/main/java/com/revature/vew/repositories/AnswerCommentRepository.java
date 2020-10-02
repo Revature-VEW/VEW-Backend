@@ -4,7 +4,6 @@ import com.revature.vew.models.Answer;
 import com.revature.vew.models.AnswerComment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
 import java.util.List;
 
 public interface AnswerCommentRepository extends JpaRepository<AnswerComment, Integer> {
