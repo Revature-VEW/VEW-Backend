@@ -2,7 +2,6 @@ package com.revature.vew.models;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -36,24 +35,20 @@ public class Question extends Auditable<String> {
 
     public Question() { }
 
-    public Question(User user, String question) {
+    public Question(int questionId) {
+        this.questionId = questionId;
+    }
+
+    public Question(int userId, String question) {
+        super();
+        User user = new User(userId);
         this.user = user;
         this.question = question;
     }
 
-    public Question(int questionId){
-        this.questionId = questionId;
-    }
-    public Question(int questionId, String question, int totalUpvotes, int totalDownvotes, Date creationDate,
-                    Date lastModifiedDate, int userId, String firstName, String lastName) {
-        User user = new User(userId, firstName, lastName);
-        this.questionId = questionId;
-        this.question = question;
-        this.totalUpvotes = totalUpvotes;
-        this.totalDownvotes = totalDownvotes;
-        this.creationDate = creationDate;
-        this.lastModifiedDate = lastModifiedDate;
+    public Question(User user, String question) {
         this.user = user;
+        this.question = question;
     }
 
     public Question(int questionId, User user, String question, boolean approved, int totalUpvotes, int totalDownvotes) {
@@ -64,14 +59,30 @@ public class Question extends Auditable<String> {
         this.approved = approved;
         this.totalUpvotes = totalUpvotes;
         this.totalDownvotes = totalDownvotes;
-
     }
 
-    public Question(int userId, String question) {
-        super();
+    public Question(int questionId, String question, int totalUpvotes, int totalDownvotes, Date creationDate,
+                    Date lastModifiedDate, int userId) {
         User user = new User(userId);
-        this.user = user;
+        this.questionId = questionId;
         this.question = question;
+        this.totalUpvotes = totalUpvotes;
+        this.totalDownvotes = totalDownvotes;
+        this.creationDate = creationDate;
+        this.lastModifiedDate = lastModifiedDate;
+        this.user = user;
+    }
+
+    public Question(int questionId, String question, int totalUpvotes, int totalDownvotes, Date creationDate,
+                    Date lastModifiedDate, int userId, String firstName, String lastName) {
+        User user = new User(userId, firstName, lastName);
+        this.questionId = questionId;
+        this.question = question;
+        this.totalUpvotes = totalUpvotes;
+        this.totalDownvotes = totalDownvotes;
+        this.creationDate = creationDate;
+        this.lastModifiedDate = lastModifiedDate;
+        this.user = user;
     }
 
     public int getQuestionId() {

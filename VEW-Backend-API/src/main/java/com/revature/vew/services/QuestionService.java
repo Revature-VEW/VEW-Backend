@@ -15,11 +15,10 @@ public class QuestionService {
     }
 
     public Question addQuestion(Question newQuestion){
-
         return questionRepository.save(newQuestion);
     }
 
-    public Question getQuestionbyQuestionId(int id) {
+    public Question getQuestionByQuestionId(int id) {
         return questionRepository.findRelevantInfoQuestionByQuestionId(id);
     }
 }

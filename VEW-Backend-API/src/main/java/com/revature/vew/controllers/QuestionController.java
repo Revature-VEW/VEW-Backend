@@ -14,7 +14,6 @@ import java.net.URISyntaxException;
 @CrossOrigin
 @RequestMapping(path = "/question")
 public class QuestionController {
-
     private QuestionService questionService;
 
     @Autowired
@@ -29,9 +28,9 @@ public class QuestionController {
         return new ResponseEntity<>(addedQuestion, HttpStatus.CREATED);
     }
 
-    @GetMapping(path="{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getQuestionByQuestionId(@PathVariable int id) {
-        Question questionFoundById = questionService.getQuestionbyQuestionId(id);
+        Question questionFoundById = questionService.getQuestionByQuestionId(id);
         return new ResponseEntity<>(questionFoundById, HttpStatus.OK);
     }
 }

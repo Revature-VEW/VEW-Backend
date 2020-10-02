@@ -19,7 +19,7 @@ public class AnswerRanking extends Auditable<String> {
 
     public AnswerRanking() { }
 
-    public AnswerRanking(User user, Answer answer,boolean upvote) {
+    public AnswerRanking(User user, Answer answer, boolean upvote) {
         this.user = user;
         this.answer = answer;
         this.upvote = upvote;
