@@ -22,9 +22,6 @@ ENV db_username=${db_username}
 ARG db_password
 ENV db_password=${db_password}
 
-ARG admin_password
-ENV admin_password=${admin_password}
-
 ## Copy Artifact from maven image
 COPY --from=builder /usr/src/app/target/vew-0.0.1-SNAPSHOT.jar /app/app.jar
 

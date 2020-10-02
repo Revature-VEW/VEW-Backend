@@ -2,7 +2,6 @@ package com.revature.vew.models;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.Entity;
 import javax.persistence.*;
 import java.util.Date;
@@ -34,7 +33,7 @@ public class Answer extends Auditable<String> {
         this.answer_id = answer_id;
     }
 
-    public Answer(User user, Question question,String answer){
+    public Answer(User user, Question question, String answer) {
         this.user = user;
         this.question = question;
         this.answer = answer;

@@ -17,12 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import java.util.Date;
 
-@ActiveProfiles("test") // This sets profile to test which means the Command Line Runner Bean will not be run.
 @WebMvcTest(controllers = QuestionController.class)
 public class QuestionControllerTests {
     private MockMvc mockMvc;

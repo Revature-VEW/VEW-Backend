@@ -13,11 +13,9 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Date;
 
-@ActiveProfiles("test") // This sets profile to test which means the Command Line Runner Bean will not be run.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class QuestionServiceTests {
