@@ -19,6 +19,7 @@ public class UserService {
         this.roleRepository = roleRepository;
     }
 
+    // this method saves a user to the database
     public User registerUser(User newUser) {
         Role defaultUserRole = this.roleRepository.findRoleByRole("User");
         newUser.setRole(defaultUserRole);
@@ -41,5 +42,28 @@ public class UserService {
         }
 
         return filteredUser;
+    }
+
+    // this methods checks whether a users email and password match
+    public User login(User currentUser) {
+        User filteredUser = new User();
+        // check to see if user exists with that email
+        // if not return user with id -1 so controller can pass message to front end that User does not exist
+        if (!this.userRepository.existsByEmail(currentUser.getEmail().toLowerCase())) {
+            filteredUser.setUserId(-1);
+            return filteredUser;
+        }
+        User userFromDatabase = this.userRepository.findUserByEmail(currentUser.getEmail().toLowerCase());
+        if (userFromDatabase.getPassword().equals(currentUser.getPassword())) {
+            filteredUser.setUserId(userFromDatabase.getUserId());
+            filteredUser.setEmail(userFromDatabase.getEmail());
+            filteredUser.setFirstName(userFromDatabase.getFirstName());
+            filteredUser.setLastName(userFromDatabase.getLastName());
+            filteredUser.setRole(userFromDatabase.getRole());
+            return filteredUser;
+        } else {
+            // this will default userId to 0 so controller knows that password was wrong
+            return filteredUser;
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.revature.vew.services;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.mockito.ArgumentMatchers.any;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -73,5 +74,41 @@ public class UserServiceTests {
         User userCreated = userServiceMock.registerUser(inputtedUser);
         assertThat(userCreated.getUserId()).isEqualTo(0);
         assertThat(userCreated.getPassword()).isEqualTo(null);
+    }
+
+    @Test
+    public void testLoginReturnsUserIfUserExistsAndPasswordMatches() {
+        Role userRole = new Role(3, "User");
+        User currentUser = new User("testone@host.com", "password");
+        User returnedUser = new User(2, "testone@host.com", "password", "Test", "One", userRole);
+        when(userRepositoryMock.existsByEmail(currentUser.getEmail())).thenReturn(true);
+        when(userRepositoryMock.findUserByEmail(currentUser.getEmail())).thenReturn(returnedUser);
+
+        User userFromLogin = userServiceMock.login(currentUser);
+        assertThat(userFromLogin.getUserId()).isEqualTo(2);
+        assertThat(userFromLogin.getFirstName()).isEqualTo("Test");
+    }
+
+    @Test
+    public void testLoginReturnsUserWithIdOfNegativeOneIfUserDoesNotExist() {
+        User currentUser = new User("testone@host.com", "password");
+        when(userRepositoryMock.existsByEmail(currentUser.getEmail())).thenReturn(false);
+
+        User userFromLogin = userServiceMock.login(currentUser);
+        assertThat(userFromLogin.getUserId()).isEqualTo(-1);
+        assertThat(userFromLogin.getFirstName()).isEqualTo(null);
+    }
+
+    @Test
+    public void testLoginReturnsUserWithIdZeroIfPasswordIsWrong() {
+        Role userRole = new Role(3, "User");
+        User currentUser = new User("testone@host.com", "password");
+        User returnedUser = new User(2, "testone@host.com", "notPassword", "Test", "One", userRole);
+        when(userRepositoryMock.existsByEmail(currentUser.getEmail())).thenReturn(true);
+        when(userRepositoryMock.findUserByEmail(currentUser.getEmail())).thenReturn(returnedUser);
+
+        User userFromLogin = userServiceMock.login(currentUser);
+        assertThat(userFromLogin.getUserId()).isEqualTo(0);
+        assertThat(userFromLogin.getFirstName()).isEqualTo(null);
     }
 }

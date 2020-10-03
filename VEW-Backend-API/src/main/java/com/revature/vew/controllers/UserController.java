@@ -50,5 +50,17 @@ public class UserController {
         }
     }
 
-
+    // This method takes in a users login information and
+    @PostMapping(path = "/login")
+    public ResponseEntity<?> login(@RequestBody User currentUser) throws URISyntaxException {
+        currentUser.setPassword(encrypt.encode(currentUser.getPassword()));
+        User userFromService = userService.login(currentUser);
+        if (userFromService.getUserId() > 0) {
+            return new ResponseEntity<>(userFromService, HttpStatus.ACCEPTED);
+        } else if (userFromService.getUserId() == -1) {
+            return new ResponseEntity<>("A User with that Email does not exist", HttpStatus.NOT_ACCEPTABLE);
+        } else {
+            return new ResponseEntity<>("That password does not match the one on file", HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
 }
