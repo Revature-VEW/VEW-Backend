@@ -130,7 +130,7 @@ public class UserControllerTests {
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNotAcceptable())
-                .andExpect(content().string("A User with that Email does not exist"))
+                .andExpect(content().string("A User with that Email does not exist."))
                 .andReturn();
     }
 
@@ -146,26 +146,7 @@ public class UserControllerTests {
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNotAcceptable())
-                .andExpect(content().string("That password does not match the one on file"))
+                .andExpect(content().string("That password does not match the one on file."))
                 .andReturn();
-    }
-
-    @Test
-    public void testLoginEncryptsPasswordBeforeSendingToService() throws Exception {
-        Role userRole = new Role(3, "User");
-        User currentUser = new User("testone@host.com", "password");
-        User returnedUser = new User(2, "testone@host.com", "Test", "One", userRole);
-        when(userServiceMock.login(any(User.class))).thenReturn(returnedUser);
-
-        this.mockMvc.perform(post("/user/login")
-                .content(objectMapper.writeValueAsString(currentUser))
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn();
-
-        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
-        verify(userServiceMock, times(1)).login(userCaptor.capture());
-        assertThat(userCaptor.getValue().getPassword()).isNotEqualTo("test");
-        assertThat(userCaptor.getValue().getEmail()).isEqualTo("testone@host.com");
     }
 }

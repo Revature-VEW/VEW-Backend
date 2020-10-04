@@ -1,6 +1,5 @@
 package com.revature.vew.services;
 
-import static org.assertj.core.api.Assertions.as;
 import static org.mockito.ArgumentMatchers.any;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -17,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
@@ -39,6 +39,8 @@ public class UserServiceTests {
 
         User outputtedUser = new User(2, "testemail@host.com", "password", "FirstName", "LastName", userRole);
         when(userRepositoryMock.save(any(User.class))).thenReturn(outputtedUser);
+
+
     }
 
     @Test
@@ -78,9 +80,12 @@ public class UserServiceTests {
 
     @Test
     public void testLoginReturnsUserIfUserExistsAndPasswordMatches() {
+        // Bcrypt encryption for user password
+        BCryptPasswordEncoder encrypt = new BCryptPasswordEncoder();
+        String password = encrypt.encode("password");
         Role userRole = new Role(3, "User");
         User currentUser = new User("testone@host.com", "password");
-        User returnedUser = new User(2, "testone@host.com", "password", "Test", "One", userRole);
+        User returnedUser = new User(2, "testone@host.com", password, "Test", "One", userRole);
         when(userRepositoryMock.existsByEmail(currentUser.getEmail())).thenReturn(true);
         when(userRepositoryMock.findUserByEmail(currentUser.getEmail())).thenReturn(returnedUser);
 
@@ -101,9 +106,12 @@ public class UserServiceTests {
 
     @Test
     public void testLoginReturnsUserWithIdZeroIfPasswordIsWrong() {
+        // Bcrypt encryption for user password
+        BCryptPasswordEncoder encrypt = new BCryptPasswordEncoder();
+        String password = encrypt.encode("notPassword");
         Role userRole = new Role(3, "User");
         User currentUser = new User("testone@host.com", "password");
-        User returnedUser = new User(2, "testone@host.com", "notPassword", "Test", "One", userRole);
+        User returnedUser = new User(2, "testone@host.com", password, "Test", "One", userRole);
         when(userRepositoryMock.existsByEmail(currentUser.getEmail())).thenReturn(true);
         when(userRepositoryMock.findUserByEmail(currentUser.getEmail())).thenReturn(returnedUser);
 

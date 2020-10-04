@@ -6,6 +6,7 @@ import com.revature.vew.repositories.RoleRepository;
 import com.revature.vew.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +19,9 @@ public class UserService {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
     }
+
+    // Bcrypt encryption for user password
+    BCryptPasswordEncoder encrypt = new BCryptPasswordEncoder();
 
     // this method saves a user to the database
     public User registerUser(User newUser) {
@@ -54,7 +58,7 @@ public class UserService {
             return filteredUser;
         }
         User userFromDatabase = this.userRepository.findUserByEmail(currentUser.getEmail().toLowerCase());
-        if (userFromDatabase.getPassword().equals(currentUser.getPassword())) {
+        if (encrypt.matches(currentUser.getPassword(), userFromDatabase.getPassword())) {
             filteredUser.setUserId(userFromDatabase.getUserId());
             filteredUser.setEmail(userFromDatabase.getEmail());
             filteredUser.setFirstName(userFromDatabase.getFirstName());
