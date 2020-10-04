@@ -50,7 +50,13 @@ public class UserController {
         }
     }
 
-    // This method takes in a users login information and
+    /* This method takes in a users login information and sends it to the userservice
+                      to check if user exists and if the password matches
+       The UserService login method will return the user if the password matches. This will be a user with id
+       higher than 0. If the User does not exist it returns a user with Id -1. If the password does not match it
+       returns a user with id 0. The controller than returns the appropriate response entity depending on which userId
+       the login method returns.
+    */
     @PostMapping(path = "/login")
     public ResponseEntity<?> login(@RequestBody User currentUser) throws URISyntaxException {
         User userFromService = userService.login(currentUser);
