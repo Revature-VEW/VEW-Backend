@@ -53,7 +53,6 @@ public class UserController {
     // This method takes in a users login information and
     @PostMapping(path = "/login")
     public ResponseEntity<?> login(@RequestBody User currentUser) throws URISyntaxException {
-//        currentUser.setPassword(encrypt.encode(currentUser.getPassword()));
         User userFromService = userService.login(currentUser);
         if (userFromService.getUserId() > 0) {
             return new ResponseEntity<>(userFromService, HttpStatus.ACCEPTED);

@@ -58,6 +58,7 @@ public class UserService {
             return filteredUser;
         }
         User userFromDatabase = this.userRepository.findUserByEmail(currentUser.getEmail().toLowerCase());
+        // Use the encrypt.matches method to see if loggin in User (currentUser) matches password from Database
         if (encrypt.matches(currentUser.getPassword(), userFromDatabase.getPassword())) {
             filteredUser.setUserId(userFromDatabase.getUserId());
             filteredUser.setEmail(userFromDatabase.getEmail());
