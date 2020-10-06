@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Profile;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
