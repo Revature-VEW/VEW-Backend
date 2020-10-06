@@ -15,7 +15,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 @SpringBootApplication
-@EnableSwagger2
 public class VewApplication {
 
     private static final Logger log = Logger.getLogger(VewApplication.class);
