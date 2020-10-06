@@ -130,7 +130,7 @@ public class UserControllerTests {
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNotAcceptable())
-                .andExpect(content().string("A User with that Email does not exist"))
+                .andExpect(content().string("A User with that Email does not exist."))
                 .andReturn();
     }
 
@@ -146,7 +146,7 @@ public class UserControllerTests {
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNotAcceptable())
-                .andExpect(content().string("That password does not match the one on file"))
+                .andExpect(content().string("That password does not match the one on file."))
                 .andReturn();
     }
 }
