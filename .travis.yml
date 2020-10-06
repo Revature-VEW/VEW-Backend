@@ -15,8 +15,7 @@ script:
  - export db_url=$db_url
  - export db_username=$db_username
  - export db_password=$db_password
- - export admin_password=$admin_password
- - docker build -t vew --build-arg db_url --build-arg db_username --build-arg db_password --build-arg admin_password .
+ - docker build -t vew --build-arg db_url --build-arg db_username --build-arg db_password .
  - cd ..
 after_success:
  - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD

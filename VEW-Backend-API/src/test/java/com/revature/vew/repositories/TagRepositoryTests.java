@@ -6,27 +6,22 @@ import com.revature.vew.models.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-
+import org.springframework.test.context.ActiveProfiles;
 import java.util.List;
 
+@ActiveProfiles("repository") // This sets profile to repository which means the Command Line Runner Bean will be run.
 @DataJpaTest
 public class TagRepositoryTests {
-    @Autowired
-    private TestEntityManager entityManager;
+    private TagRepository tagRepository;
 
     @Autowired
-    private TagRepository tagRepository;
+    public TagRepositoryTests(TagRepository tagRepository) {
+        this.tagRepository = tagRepository;
+    }
 
     @Test
     public void testFindAll() {
-        Tag tagOne = new Tag("Java");
-        entityManager.persist(tagOne);
-        Tag tagTwo = new Tag("Capco");
-        entityManager.persist(tagTwo);
-
         List<Tag> allTags = tagRepository.findAll();
-
-        assertThat(allTags.size()).isEqualTo(2);
+        assertThat(allTags.size()).isEqualTo(3);
     }
 }

@@ -16,10 +16,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
-@ActiveProfiles("test") // This sets profile to test which means the Command Line Runner Bean will not be run.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserServiceTests {
@@ -40,6 +39,8 @@ public class UserServiceTests {
 
         User outputtedUser = new User(2, "testemail@host.com", "password", "FirstName", "LastName", userRole);
         when(userRepositoryMock.save(any(User.class))).thenReturn(outputtedUser);
+
+
     }
 
     @Test
@@ -75,5 +76,47 @@ public class UserServiceTests {
         User userCreated = userServiceMock.registerUser(inputtedUser);
         assertThat(userCreated.getUserId()).isEqualTo(0);
         assertThat(userCreated.getPassword()).isEqualTo(null);
+    }
+
+    @Test
+    public void testLoginReturnsUserIfUserExistsAndPasswordMatches() {
+        // Bcrypt encryption for user password
+        BCryptPasswordEncoder encrypt = new BCryptPasswordEncoder();
+        String password = encrypt.encode("password");
+        Role userRole = new Role(3, "User");
+        User currentUser = new User("testone@host.com", "password");
+        User returnedUser = new User(2, "testone@host.com", password, "Test", "One", userRole);
+        when(userRepositoryMock.existsByEmail(currentUser.getEmail())).thenReturn(true);
+        when(userRepositoryMock.findUserByEmail(currentUser.getEmail())).thenReturn(returnedUser);
+
+        User userFromLogin = userServiceMock.login(currentUser);
+        assertThat(userFromLogin.getUserId()).isEqualTo(2);
+        assertThat(userFromLogin.getFirstName()).isEqualTo("Test");
+    }
+
+    @Test
+    public void testLoginReturnsUserWithIdOfNegativeOneIfUserDoesNotExist() {
+        User currentUser = new User("testone@host.com", "password");
+        when(userRepositoryMock.existsByEmail(currentUser.getEmail())).thenReturn(false);
+
+        User userFromLogin = userServiceMock.login(currentUser);
+        assertThat(userFromLogin.getUserId()).isEqualTo(-1);
+        assertThat(userFromLogin.getFirstName()).isEqualTo(null);
+    }
+
+    @Test
+    public void testLoginReturnsUserWithIdZeroIfPasswordIsWrong() {
+        // Bcrypt encryption for user password
+        BCryptPasswordEncoder encrypt = new BCryptPasswordEncoder();
+        String password = encrypt.encode("notPassword");
+        Role userRole = new Role(3, "User");
+        User currentUser = new User("testone@host.com", "password");
+        User returnedUser = new User(2, "testone@host.com", password, "Test", "One", userRole);
+        when(userRepositoryMock.existsByEmail(currentUser.getEmail())).thenReturn(true);
+        when(userRepositoryMock.findUserByEmail(currentUser.getEmail())).thenReturn(returnedUser);
+
+        User userFromLogin = userServiceMock.login(currentUser);
+        assertThat(userFromLogin.getUserId()).isEqualTo(0);
+        assertThat(userFromLogin.getFirstName()).isEqualTo(null);
     }
 }
