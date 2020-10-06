@@ -63,9 +63,9 @@ public class UserController {
         if (userFromService.getUserId() > 0) {
             return new ResponseEntity<>(userFromService, HttpStatus.ACCEPTED);
         } else if (userFromService.getUserId() == -1) {
-            return new ResponseEntity<>("A User with that Email does not exist.", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>("A User with that Email does not exist", HttpStatus.NOT_ACCEPTABLE);
         } else {
-            return new ResponseEntity<>("That password does not match the one on file.", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>("That password does not match the one on file", HttpStatus.NOT_ACCEPTABLE);
         }
     }
 }
