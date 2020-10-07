@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.net.URISyntaxException;
@@ -50,7 +51,7 @@ public class UserController {
         }
     }
 
-    /* This method takes in a users login information and sends it to the userservice
+    /* This method takes in a users login information and sends it to the userService
                       to check if user exists and if the password matches
        The UserService login method will return the user if the password matches. This will be a user with id
        higher than 0. If the User does not exist it returns a user with Id -1. If the password does not match it

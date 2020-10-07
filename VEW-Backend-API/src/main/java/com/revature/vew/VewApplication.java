@@ -22,9 +22,9 @@ public class VewApplication {
         SpringApplication.run(VewApplication.class, args);
     }
 
-    // Spring boot’s CommandLineRunner interface is used to run a code block only once in application’s lifetime
-    //                  – after application is initialized.
-    // We use it to set populate the database for our repository tests instead of using SQL
+//     Spring boot’s CommandLineRunner interface is used to run a code block only once in application’s lifetime
+//                      – after application is initialized.
+//     We use it to set populate the database for our repository tests instead of using SQL
     @Profile("repository") // Runs this bean whenever the Profile is repository
     @Bean
     public CommandLineRunner repositoryTestDBSetup(RoleRepository roleRepository, UserRepository userRepository,
