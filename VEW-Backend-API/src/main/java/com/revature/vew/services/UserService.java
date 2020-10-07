@@ -33,7 +33,7 @@ public class UserService {
         userId > 0 means a user was created
         userId == -1 means there was a DataIntegrityViolationException
                     ie user(email) already exists
-        userId will equal 0 for other exceptions since that is the defatul value of an int
+        userId will equal 0 for other exceptions since that is the default value of an int
         */
         try {
             User unfilteredUser = this.userRepository.save(newUser);

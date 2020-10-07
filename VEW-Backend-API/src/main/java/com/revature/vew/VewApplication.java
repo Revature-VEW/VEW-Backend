@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Profile;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,9 +22,9 @@ public class VewApplication {
         SpringApplication.run(VewApplication.class, args);
     }
 
-    // Spring boot’s CommandLineRunner interface is used to run a code block only once in application’s lifetime
-    //                  – after application is initialized.
-    // We use it to set populate the database for our repository tests instead of using SQL
+//     Spring boot’s CommandLineRunner interface is used to run a code block only once in application’s lifetime
+//                      – after application is initialized.
+//     We use it to set populate the database for our repository tests instead of using SQL
     @Profile("repository") // Runs this bean whenever the Profile is repository
     @Bean
     public CommandLineRunner repositoryTestDBSetup(RoleRepository roleRepository, UserRepository userRepository,
