@@ -27,7 +27,7 @@ public class AnswerRankingTest {
     public void testSetAnswer() {
         AnswerRanking answerRanking = new AnswerRanking();
         answerRanking.setAnswer(new Answer());
-        assertEquals("AnswerRanking{answerRankingId=0, user=null, answer=Answer{answer_id=0, question=null, answer='null',"
+        assertEquals("AnswerRanking{answerRankingId=0, user=null, answer=Answer{answerId=0, question=null, answer='null',"
                 + " user=null, totalUpvotes=0, totalDownvotes=0, creationDate=null, lastModifiedDate=null}, upvote=false,"
                 + " creationDate=null, lastModifiedDate=null}", answerRanking.toString());
     }

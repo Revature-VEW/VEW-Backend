@@ -33,4 +33,12 @@ public class AnswerRepositoryTests {
         assertThat(onlyAnswersForOneQuestion.size()).isEqualTo(2);
         assertThat(onlyAnswersForOneQuestion.get(0).getUser().getPassword()).isEqualTo(null);
     }
+
+    @Test
+    public void testFindRelevantInfoAnswerByAnswerId() {
+        Answer answerFoundById = answerRepository.findRelevantInfoAnswerByAnswerId(1);
+        assertThat(answerFoundById.getAnswerId()).isEqualTo(1);
+        assertThat(answerFoundById.getAnswer()).isEqualTo("General Purpose Programming Language");
+        assertThat(answerFoundById.getUser().getPassword()).isEqualTo(null);
+    }
 }

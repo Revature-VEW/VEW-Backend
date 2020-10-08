@@ -12,13 +12,13 @@ public class AnswerCommentTest {
         Date creationDate = new Date(1L);
         AnswerComment actualAnswerComment = new AnswerComment(123, "Comment", creationDate, new Date(1L), 123, 123, "Jane",
                 "Doe");
-        int actualAnswer_id = actualAnswerComment.getAnswer().getAnswer_id();
+        int actualAnswer_id = actualAnswerComment.getAnswer().getAnswerId();
         assertEquals("Comment", actualAnswerComment.getComment());
         User user = actualAnswerComment.getUser();
         assertEquals(123, actualAnswerComment.getAnswerCommentId());
         assertEquals(
                 "AnswerComment{answerCommentId=123, user=User{userId=123, username='null', password='null', firstName='Jane',"
-                        + " lastName='Doe', role=null}, answer=Answer{answer_id=123, question=null, answer='null', user=null,"
+                        + " lastName='Doe', role=null}, answer=Answer{answerId=123, question=null, answer='null', user=null,"
                         + " totalUpvotes=0, totalDownvotes=0, creationDate=null, lastModifiedDate=null}, comment='Comment',"
                         + " creationDate=Wed Dec 31 19:00:00 EST 1969, lastModifiedDate=Wed Dec 31 19:00:00 EST 1969}",
                 actualAnswerComment.toString());
@@ -50,7 +50,7 @@ public class AnswerCommentTest {
     public void testSetAnswer() {
         AnswerComment answerComment = new AnswerComment();
         answerComment.setAnswer(new Answer());
-        assertEquals("AnswerComment{answerCommentId=0, user=null, answer=Answer{answer_id=0, question=null, answer='null',"
+        assertEquals("AnswerComment{answerCommentId=0, user=null, answer=Answer{answerId=0, question=null, answer='null',"
                 + " user=null, totalUpvotes=0, totalDownvotes=0, creationDate=null, lastModifiedDate=null}, comment='null',"
                 + " creationDate=null, lastModifiedDate=null}", answerComment.toString());
     }
