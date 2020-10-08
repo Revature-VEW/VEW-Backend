@@ -12,7 +12,7 @@ public class Answer extends Auditable<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "answer_id")
-    private int answer_id;
+    private int answerId;
     @ManyToOne
     @JoinColumn(name="question_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -29,8 +29,8 @@ public class Answer extends Auditable<String> {
 
     public Answer() { }
 
-    public Answer(int answer_id) {
-        this.answer_id = answer_id;
+    public Answer(int answerId) {
+        this.answerId = answerId;
     }
 
     public Answer(User user, Question question, String answer) {
@@ -39,11 +39,20 @@ public class Answer extends Auditable<String> {
         this.answer = answer;
     }
 
-    public Answer(int answer_id, String answer, int totalUpvotes, int totalDownvotes, Date creationDate,
+    public Answer(String answer, int questionId, int userId, String userFirstName, String userLastName) {
+        super();
+        Question question = new Question(questionId);
+        User user = new User(userId, userFirstName, userLastName);
+        this.answer = answer;
+        this.question = question;
+        this.user = user;
+    }
+
+    public Answer(int answerId, String answer, int totalUpvotes, int totalDownvotes, Date creationDate,
                   Date lastModifiedDate, int questionId, int userId, String firstName, String lastName) {
         Question question = new Question(questionId);
         User user = new User(userId, firstName, lastName);
-        this.answer_id = answer_id;
+        this.answerId = answerId;
         this.answer = answer;
         this.totalUpvotes = totalUpvotes;
         this.totalDownvotes = totalDownvotes;
@@ -53,12 +62,12 @@ public class Answer extends Auditable<String> {
         this.question=question;
     }
 
-    public int getAnswer_id() {
-        return answer_id;
+    public int getAnswerId() {
+        return answerId;
     }
 
-    public void setAnswer_id(int answer_id) {
-        this.answer_id = answer_id;
+    public void setAnswerId(int answerId) {
+        this.answerId = answerId;
     }
 
     public Question getQuestion() {
@@ -104,7 +113,7 @@ public class Answer extends Auditable<String> {
     @Override
     public String toString() {
         return "Answer{" +
-                "answer_id=" + answer_id +
+                "answerId=" + answerId +
                 ", question=" + question +
                 ", answer='" + answer + '\'' +
                 ", user=" + user +

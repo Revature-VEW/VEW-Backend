@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 
 public class AnswerTest {
     @Test
-    public void testSetAnswer_id() {
+    public void testSetAnswerId() {
         Answer answer = new Answer();
-        answer.setAnswer_id(1);
-        assertEquals(1, answer.getAnswer_id());
+        answer.setAnswerId(1);
+        assertEquals(1, answer.getAnswerId());
     }
 
     @Test
@@ -17,7 +17,7 @@ public class AnswerTest {
         Answer answer = new Answer();
         answer.setQuestion(new Question());
         assertEquals(
-                "Answer{answer_id=0, question=Question{questionId=0, user=null, question='null', approved=false,"
+                "Answer{answerId=0, question=Question{questionId=0, user=null, question='null', approved=false,"
                         + " totalUpvotes=0, totalDownvotes=0, tags=[], creationDate=null, lastModifiedDate=null}, answer='null',"
                         + " user=null, totalUpvotes=0, totalDownvotes=0, creationDate=null, lastModifiedDate=null}",
                 answer.toString());
@@ -35,7 +35,7 @@ public class AnswerTest {
         Answer answer = new Answer();
         answer.setUser(new User());
         assertEquals(
-                "Answer{answer_id=0, question=null, answer='null', user=User{userId=0, username='null', password='null',"
+                "Answer{answerId=0, question=null, answer='null', user=User{userId=0, username='null', password='null',"
                         + " firstName='null', lastName='null', role=null}, totalUpvotes=0, totalDownvotes=0, creationDate=null,"
                         + " lastModifiedDate=null}",
                 answer.toString());
@@ -57,7 +57,7 @@ public class AnswerTest {
 
     @Test
     public void testToString() {
-        assertEquals("Answer{answer_id=0, question=null, answer='null', user=null, totalUpvotes=0, totalDownvotes=0,"
+        assertEquals("Answer{answerId=0, question=null, answer='null', user=null, totalUpvotes=0, totalDownvotes=0,"
                 + " creationDate=null, lastModifiedDate=null}", (new Answer()).toString());
     }
 }
