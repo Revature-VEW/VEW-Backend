@@ -1,9 +1,12 @@
 package com.revature.vew.services;
 
 import com.revature.vew.models.Answer;
+import com.revature.vew.models.Question;
 import com.revature.vew.repositories.AnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AnswerService {
@@ -20,5 +23,9 @@ public class AnswerService {
 
     public Answer getAnswerByAnswerId(int answerId) {
         return answerRepository.findRelevantInfoAnswerByAnswerId(answerId);
+    }
+
+    public List<Answer> getAnswersByQuestion(Question question) {
+        return answerRepository.findRelevantInfoAnswersByQuestion(question);
     }
 }

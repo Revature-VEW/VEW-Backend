@@ -1,6 +1,7 @@
 package com.revature.vew.controllers;
 
 import com.revature.vew.models.Answer;
+import com.revature.vew.models.Question;
 import com.revature.vew.services.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URISyntaxException;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -31,5 +33,12 @@ public class AnswerController {
     public ResponseEntity<?> getAnswerByAnswerId(@PathVariable int id) throws URISyntaxException {
         Answer answerFoundById = answerService.getAnswerByAnswerId(id);
         return new ResponseEntity<>(answerFoundById, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/question/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAnswersByQuestion(@PathVariable int id) throws URISyntaxException {
+        Question inputQuestion = new Question(id);
+        List<Answer> answersFoundByQuestion = answerService.getAnswersByQuestion(inputQuestion);
+        return new ResponseEntity<>(answersFoundByQuestion, HttpStatus.OK);
     }
 }
