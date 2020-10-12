@@ -6,17 +6,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.revature.vew.models.Answer;
 import com.revature.vew.models.Question;
-import com.revature.vew.models.Role;
-import com.revature.vew.models.User;
 import com.revature.vew.repositories.AnswerRepository;
-import com.revature.vew.repositories.QuestionRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -51,5 +51,24 @@ public class AnswerServiceTests {
 
         Answer answerCreated = answerServiceMock.getAnswerByAnswerId(1);
         assertThat(answerCreated).isEqualTo(outputAnswer);
+    }
+
+    @Test
+    public void testGetAnswersByQuestion() {
+        Date creationDate = new Date(1L);
+        Date updateDate = creationDate;
+        Answer outputAnswerOne = new Answer(1, "The best.", 0, 0, creationDate,
+                updateDate, 13, 5, "Test", "One");
+        Answer outputAnswerTwo = new Answer(2, "The worst.", 0, 0, creationDate,
+                updateDate, 13, 6, "Test", "Two");
+        List<Answer> outputtedAnswers = new ArrayList<>();
+        outputtedAnswers.add(outputAnswerOne);
+        outputtedAnswers.add(outputAnswerTwo);
+        Question inputQuestion = new Question(13);
+        when(answerRepositoryMock.findRelevantInfoAnswersByQuestion(inputQuestion)).thenReturn(outputtedAnswers);
+
+        List<Answer> answersReturned = answerServiceMock.getAnswersByQuestion(inputQuestion);
+        assertThat(answersReturned).isEqualTo(outputtedAnswers);
+        assertThat(answersReturned.size()).isEqualTo(2);
     }
 }

@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.vew.models.Answer;
+import com.revature.vew.models.Question;
 import com.revature.vew.services.AnswerService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @WebMvcTest(controllers = AnswerController.class)
 public class AnswerControllerTests {
@@ -68,5 +72,28 @@ public class AnswerControllerTests {
                 .andReturn();
         Assert.assertNotNull(result);
         assertThat(result.getResponse().getContentAsString()).contains("The best.");
+    }
+
+    @Test
+    public void testGetAnswerByQuestion() throws Exception {
+        Date creationDate = new Date(1L);
+        Date updateDate = creationDate;
+        Answer outputAnswerOne = new Answer(1, "The best.", 0, 0, creationDate,
+                updateDate, 13, 5, "Test", "One");
+        Answer outputAnswerTwo = new Answer(2, "The worst.", 0, 0, creationDate,
+                updateDate, 13, 6, "Test", "Two");
+        List<Answer> outputtedAnswers = new ArrayList<>();
+        outputtedAnswers.add(outputAnswerOne);
+        outputtedAnswers.add(outputAnswerTwo);
+        Question inputQuestion = new Question(13);
+        when(answerServiceMock.getAnswersByQuestion(any(Question.class))).thenReturn(outputtedAnswers);
+
+        MvcResult result = this.mockMvc.perform(get("/answer/question/13"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+        Assert.assertNotNull(result);
+        assertThat(result.getResponse().getContentAsString()).contains("The best.");
+        assertThat(result.getResponse().getContentAsString()).contains("The worst.");
     }
 }
